@@ -27,7 +27,7 @@ type API struct {
 	APIUserServiceKey string
 	BaseURL           string
 	headers           http.Header
-	HttpClient        *http.Client
+	httpClient        *http.Client
 	authType          int
 }
 
@@ -52,8 +52,8 @@ func New(key, email string, opts ...Option) (*API, error) {
 
 	// Fall back to http.DefaultClient if the package user does not provide
 	// their own.
-	if api.HttpClient == nil {
-		api.HttpClient = http.DefaultClient
+	if api.httpClient == nil {
+		api.httpClient = http.DefaultClient
 	}
 
 	return api, nil
@@ -146,7 +146,7 @@ func (api *API) request(method, uri string, reqBody io.Reader) (*http.Response, 
 
 	req.Header.Set("Content-Type", "application/json")
 
-	resp, err := api.HttpClient.Do(req)
+	resp, err := api.httpClient.Do(req)
 	if err != nil {
 		return nil, errors.Wrap(err, "HTTP request failed")
 	}
